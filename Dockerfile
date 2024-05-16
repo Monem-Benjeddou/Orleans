@@ -6,7 +6,6 @@ ENV SimpleProperty="hello-from-BASE-dockerfile"
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["GloboTicket.sln", "."]
 COPY ["GloboTicket.Silo/GloboTicket.Silo.csproj", "GloboTicket.Silo/"]
 RUN dotnet restore "GloboTicket.Silo/GloboTicket.Silo.csproj"
 COPY . .
