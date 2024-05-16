@@ -45,4 +45,4 @@ jobs:
           context: .
           file: ./Orelans/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/Orelans:latest, ${{ secrets.DOCKERHUB_USERNAME }}/Orelans:${{ github.run_number }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}orelans:latest, ${{ secrets.DOCKERHUB_USERNAME }}/Orelans:${{ github.run_number }}
