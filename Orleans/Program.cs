@@ -14,7 +14,7 @@ using Orleans;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-var persistanceConnectionString = "Server=.\\;Initial Catalog=orleans; Integrated Security=True;Encrypt=false; TrustServerCertificate=True";
+var persistanceConnectionString = "Server=192.168.30.55,1435;Database=orleans;User Id=sa;Password=Monemnejijannet1;";
 builder.Host
     .UseOrleansClient(client =>
     {

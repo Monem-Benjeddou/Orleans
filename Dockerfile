@@ -31,8 +31,8 @@ FROM build AS publish
 # Publish the Silo project
 RUN dotnet publish "GloboTicket.Silo.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Define the final stage
-FROM base AS final
+# Define the final stage with a valid base image
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
 
 # Copy the published output from the publish stage

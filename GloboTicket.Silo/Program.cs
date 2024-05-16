@@ -22,7 +22,7 @@ catch (Exception ex)
 
 static async Task<IHost> StartSiloAsync()
 {
-    var persistanceConnectionString = "192.168.30.55,1435;ServerDatabase=orleans;User Id=sa;Password=Monemnejijannet1;";
+    var persistanceConnectionString = "Server=192.168.30.55,1435;Database=orleans;User Id=sa;Password=Monemnejijannet1;";
 
 
     var builder = Host
