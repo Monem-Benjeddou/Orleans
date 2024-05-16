@@ -9,7 +9,7 @@ WORKDIR /src
 COPY ["GloboTicket.Silo/GloboTicket.Silo.csproj", "silo/"]
 RUN dotnet restore "GloboTicket.Silo.csproj"
 COPY . .
-WORKDIR "/src/GloboTicket.Silo/GloboTicket.Silo.csproj"
+WORKDIR "GloboTicket.Silo/GloboTicket.Silo.csproj"
 RUN dotnet build "GloboTicket.Silo.csproj" -c Release -o /app/build
 
 FROM build AS publish
