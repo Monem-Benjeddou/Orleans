@@ -1,0 +1,100 @@
+﻿@page "/"
+@using Orleans.Models
+@using Orleans.Services
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<h3>Users</h3>
+
+@if (Users == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <div class="table-responsive tableFixHead">
+        <table class="table table-sm table-bordered table-hover table-striped">
+            <caption>List of Users</caption>
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <button class="btn btn-outline-success" @onclick="add" title="Add"><span class="oi oi-plus" aria-hidden="true"></span></button>
+                    </th>
+                    <th scope="col">Id</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Role</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int rowNbr = 1;
+                }
+                @foreach (var item in Users)
+                {
+                    <tr>
+                        <td>@(rowNbr++)</td>
+                        <td>@item.Id</td>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Email</td>
+@*                         <td>
+                            @if (item.FirstName != "admin")
+                            {
+                                <button class="btn btn-outline-primary" @onclick="(()=>edit(item))" title="Edit"><span class="oi oi-pencil" aria-hidden="true"></span></button>
+                                <button class="btn btn-outline-danger" @onclick="(async ()=>await delete(item))" title="Delete"><span class="oi oi-trash" aria-hidden="true"></span></button>
+                            }
+                        </td> *@
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="form-group">
+    <InputText class="form-control" @bind-Value="@_model.FirstName" />
+</div>
+                                    
+<button type="submit" @onclick=add class="btn btn-success" data-dismiss="modal">
+    <span aria-hidden="true">Accept</span>
+</button>
+
+@code{
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = default!;
+    [Inject] private IUserService userServcie{ get; set; }
+    List<UserProfile> Users=new();
+    private UserProfile? _profile = null;
+    private UserProfile _model=new();
+    private Guid _userId = Guid.Empty;
+    private Guid _usersGuid = Guid.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = state.User;
+        var userId = user.FindFirst(c => c.Type.Contains("nameidentifier"))?.Value;
+        if (!string.IsNullOrEmpty(userId))
+        {
+            _userId = Guid.Parse(userId!);
+        }
+        Users = await userServcie.GetAllUsers(_userId);
+    }
+    private async Task add()
+    {
+        Guid userGuid = new Guid();
+        _model.Id = userGuid;
+        await userServcie.AddUser(_model, _userId);
+        Users = await userServcie.GetAllUsers(_userId);
+        StateHasChanged();
+    }
+}
