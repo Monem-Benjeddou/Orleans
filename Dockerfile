@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["GloboTicket.sln", "."]
 COPY ["GloboTicket.Silo/GloboTicket.Silo.csproj", "GloboTicket.Silo/"]
-RUN dotnet restore "GloboTicket.sln"
+RUN dotnet restore "GloboTicket.Silo/GloboTicket.Silo.csproj"
 COPY . .
 WORKDIR "/src/GloboTicket.Silo"
 RUN dotnet build "GloboTicket.Silo.csproj" -c Release -o /app/build
