@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    image: orleans/app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    environment:
+      SimpleProperty: "hello-from-FINAL-dockerfile"
+
+
+
+
+
